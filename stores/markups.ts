@@ -85,7 +85,7 @@ export const useMarkups = defineStore('markup', {
     // Clear data
     clearvalues() {
       this.addMarkup = {
-        id: undefined, // Resetting id
+        id: undefined, 
         name: '',
         incomingValue: '',
         outcomingValue: '',

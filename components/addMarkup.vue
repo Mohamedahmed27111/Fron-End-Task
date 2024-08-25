@@ -131,13 +131,7 @@
 
   
   <style scoped>
-  .inputText {
-    @apply bg-white w-full ;
-  }
-  
-  .inputText:focus {
-    border-color: #4824f5 !important;
-  }
+ 
   
   .custom-dropdown .p-dropdown .p-inputtext:focus {
     border-color: #4824f5 !important;

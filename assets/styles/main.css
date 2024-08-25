@@ -20,3 +20,10 @@ body {
   border-color: #4824f5 !important;
   background: #4824f5 !important;
 }
+.inputText {
+  @apply bg-white w-full ;
+}
+
+.inputText:focus {
+  border-color: #4824f5 !important;
+}

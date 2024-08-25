@@ -14,12 +14,12 @@
       <form @submit.prevent="submitForm">
         <!-- Markup Section -->
         <div class="mb-6 p-6" v-if="isActive === 1">
-          <Add/>
+          <addMarkup />
         </div>
 
         <!-- Corporates Section -->
         <div class="mb-6" v-if="isActive === 2">
-          <NextAdd/>
+          <addCorporates />
         </div>
 
         <!-- Submit Button -->
@@ -56,11 +56,13 @@ import { ref, watch, defineProps, defineEmits, onMounted } from 'vue';
 import axios from 'axios';
 import { useMarkups } from '~/stores/markups';
 
-const markupStore = useMarkups()
-const inputMArkup = ref(markupStore.addMarkup)
+// Initialize the markups store
+const markupStore = useMarkups();
+const inputMArkup = ref(markupStore.addMarkup);
 
-const isActive = ref(1);
 
+
+// Define the expected props for this component
 interface Props {
   isOpen: boolean;
   title: string;
@@ -68,60 +70,40 @@ interface Props {
 
 const props = defineProps<Props>();
 
+// Define the event emission for updating the modal state
 const emit = defineEmits<{
   (event: 'update:isOpen', value: boolean): void;
 }>();
 
+// Reactive reference to control modal visibility
 const isOpen = ref(props.isOpen);
 
-// close the modal
+// Function to close the modal and reset the active step
 const closeModal = () => {
   emit('update:isOpen', false);
 };
 
+
 const handleClose = () => {
   closeModal();
-  isActive.value = 1;
+  isActive.value = 1; // Reset active step when closing
+  markupStore.clearvalues()
 };
 
+// Watch for changes in the `isOpen` prop to synchronize modal visibility
 watch(() => props.isOpen, (newVal) => {
   isOpen.value = newVal;
   if (!newVal) {
-    isActive.value = 1;
+    isActive.value = 1; // Reset active step when modal is closed
   }
 });
-
-// Define types
-interface Asset {
-  name: string;
-  id: number;
-  selectedCity?: string;
-  incomingValue: string;
-  outcomingValue: string;
-}
-
-interface Markup {
-  name: string;
-  incomingValue: string;
-  outcomingValue: string;
-  assets: Asset[];
-}
-
-interface Corporate {
-  name: string;
-  id: number;
-}
-
-
-const selectedCorporates = ref<Corporate[]>([]);
-const corporates = ref<Corporate[]>([]);
-const assets = ref<{ name: string; id: number }[]>([]);
 
 
 
 // Handle form submission
 const submitForm = async () => {
   try {
+    // Send a POST request with markup and selected corporates
     const response = await axios.post('https://example.com/api/markups', {
       markup: inputMArkup.value,
       corporates: selectedCorporates.value
@@ -133,17 +115,31 @@ const submitForm = async () => {
 };
 
 
+
+
+
+
+
+
+
+
+
+// Track the active tab or step
+const isActive = ref(1);
+
+
+// Handle the "Next" button click
 const handleNext = () => {
-  isActive.value = 2;
+  isActive.value = 2; // Move to the next step
 };
 
+// Handle the "Back" button click
 const handleBack = () => {
-  isActive.value = 1;
+  isActive.value = 1; // Go back to the previous step
 };
-
-
 
 </script>
+
 
 
 

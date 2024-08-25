@@ -43,7 +43,6 @@ interface Markups {
   showAsset: AssetData[];
   CorporateInfo: Corporate[];
   addMarkup: MarkupsInfo;
-  addAsset: AssetsInfo;
 }
 
 // Define the Pinia store
@@ -60,59 +59,76 @@ export const useMarkups = defineStore('markup', {
         corporates:'',
         assets: []
       },
-      addAsset:{
-        name:'',
-        incomingValue: '',
-        outcomingValue: ''
-      }
+
+  
+   
   }),
 
   actions: {
 
-    // fetch Markups
-    async fetchMarkUps(){
-        try{
-            const response = await axios.get<{data:MarkupData[]}>(`${API_URL}/markups`)
-            this.showMarkup=response.data.data.map(markUp => ({
-                name:markUp.name,
-                incoming_markup: markUp.incoming_markup ,
-                outgoing_markup:markUp.outgoing_markup,
-                id:markUp.id
-            }));
-        }
-        catch (error) {
-            console.error('Error fetching Markups', error);
-          }
+
+
+    // clear data
+    clearvalues(){
+      this.addMarkup={
+        name:'',
+        incomingValue:'',
+        outcomingValue:'',
+        corporates:'',
+        assets:[]
+      }
     },
+
+
     
 
+
+
+    // fetch Markups
+    fetchMarkUps() {
+        axios.get<{ data: MarkupData[] }>(`${API_URL}/markups`)
+            .then((response) => {
+                this.showMarkup = response.data.data.map(markUp => ({
+                    name: markUp.name,
+                    incoming_markup: markUp.incoming_markup,
+                    outgoing_markup: markUp.outgoing_markup,
+                    id: markUp.id
+                }));
+            })
+            .catch((error) => {
+                console.error('Error fetching Markups:', error);
+            });
+    },
 
     // fetch Assets
-    async fetchAssets() {
-      try {
-        const response = await axios.get<{ data: { name: string; id: number }[] }>(`${API_URL}/assets`);
-        this.showAsset = response.data.data.map(asset => ({
-          name: asset.name,
-          id: asset.id,     
-        }));
-      } catch (error) {
-        console.error('Error fetching assets:', error);
-      }
-   
-    
+    fetchAssets() {
+        axios.get<{ data: AssetData[] }>(`${API_URL}/assets`)
+            .then((response) => {
+                this.showAsset = response.data.data.map(asset => ({
+                    name: asset.name,
+                    id: asset.id
+                }));
+            })
+            .catch((error) => {
+                console.error('Error fetching assets:', error);
+            });
     },
-    // fetch Corporate
 
-    async fetchCorporateInfo() {
-      try {
-        const response = await axios.get<{ data: Corporate[] }>(`${API_URL}/corporates`);
-        this.CorporateInfo = response.data.data.map(Corporate=>({
-            name:Corporate.name,
-            id:Corporate.id
-        }))
-      } catch (error) {
-        console.error('Error fetching corporate info:', error);
-      }
+    // fetch Corporate
+    fetchCorporateInfo() {
+        axios.get<{ data: Corporate[] }>(`${API_URL}/corporates`)
+            .then((response) => {
+                this.CorporateInfo = response.data.data.map(corporate => ({
+                    name: corporate.name,
+                    id: corporate.id
+                }));
+            })
+            .catch((error) => {
+                console.error('Error fetching corporate info:', error);
+            });
     }
-  },
+},
 });
+
+    
+

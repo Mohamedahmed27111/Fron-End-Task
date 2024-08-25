@@ -13,13 +13,14 @@
       optionLabel="name"
       placeholder="Select Corporates"
       class="custom-dropdown p-focus w-full"
+
     />
   </div>
 </template>
 
 
 
-<script setup lang="ts">
+<script setup >
 import { ref} from 'vue';
 import { useMarkups } from '~/stores/markups';
 
@@ -28,9 +29,6 @@ const markupsStore = useMarkups();
 const inputMArkup = ref(markupsStore.addMarkup)
 
 const getCorporates =ref(markupsStore.CorporateInfo)
-
-
-markupsStore.fetchCorporateInfo()
 
 
 

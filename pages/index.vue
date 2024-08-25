@@ -63,24 +63,30 @@
   </div>
 </template>
 
+
+
+
 <script setup >
-import { ref, computed , onMounted } from 'vue'
+import { ref, computed   } from 'vue'
 
 import { useMarkups } from '@/stores/markups';
 
 const searchQuery = ref('')
-const showModal = ref(true)
+const showModal = ref(false)
 const activeAction = ref(null)
 
 const markupsStore = useMarkups();
 
+  markupsStore.fetchMarkUps()
+  markupsStore.fetchAssets()
+  markupsStore.fetchCorporateInfo()
+  
+
 
 const getMarkups = ref(markupsStore.showMarkup)
 
-console.log(getMarkups)
-onMounted(() => {
-  markupsStore.fetchMarkUps()
-
+watch(()=> {
+  
 })
 
 // Computed property to filter markups based on the search query
@@ -94,6 +100,8 @@ const filteredMarkups = computed(() => {
 const openModal = () => {
   showModal.value = true
 }
+
+
 
 
 
@@ -142,6 +150,16 @@ const toggleActions = (id) => {
   activeAction.value = activeAction.value === id ? null : id
 }
 </script>
+
+
+
+
+
+
+
+
+
+
 
 <style scoped>
 /* Table */

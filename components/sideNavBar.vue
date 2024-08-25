@@ -8,10 +8,10 @@
         <Icon size="25" name="ic:sharp-close" color="black" class="lg:hidden" @click="toggle" />
       </div>
       <ul>
-        <NuxtLink to="/D"><li><Icon size="25" name="material-symbols:dashboard" /> Dashboard</li></NuxtLink>
-        <NuxtLink to="/C"><li><Icon size="25" name="ph:buildings-fill" /> Corporates</li></NuxtLink>
-        <NuxtLink to="/N"><li><Icon size="25" name="entypo:network" /> Networks</li></NuxtLink>
-        <NuxtLink to="/A"><li><Icon size="25" name="fa-brands:gg-circle" /> Assets</li></NuxtLink>
+        <NuxtLink to="/Dashboard"><li><Icon size="25" name="material-symbols:dashboard" /> Dashboard</li></NuxtLink>
+        <NuxtLink to="/Corporates"><li><Icon size="25" name="ph:buildings-fill" /> Corporates</li></NuxtLink>
+        <NuxtLink to="/Network"><li><Icon size="25" name="entypo:network" /> Networks</li></NuxtLink>
+        <NuxtLink to="/Assets"><li><Icon size="25" name="fa-brands:gg-circle" /> Assets</li></NuxtLink>
         <NuxtLink to="/"><li><Icon size="25" name="f7:divide-square-fill" /> Markups</li></NuxtLink>
       </ul>
     </div>

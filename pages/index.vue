@@ -2,6 +2,7 @@
   <div>
 
     <div class="bg-white rounded-md p-4">
+      <UpdateValues />
       
       <h1 class="text-black text-2xl font-bold">Markups Groups</h1>
       <p class="text-sec-2 text-sm font-semibold mt-1">Manage your markups, add and edit them</p>
@@ -36,7 +37,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="m in filteredMarkups" :key="m.id" class="border-b-2 border-sec-1">
+            <tr v-for="(m,index) in filteredMarkups" :key="m.id" class="border-b-2 border-sec-1">
               <td>{{ m.name }}</td>
               <td>{{ m.incoming_markup }}</td>
               <td>{{ m.outgoing_markup }}</td>
@@ -67,7 +68,7 @@
 
 
 <script setup >
-import { ref, computed   } from 'vue'
+import { ref, computed , onMounted  } from 'vue'
 
 import { useMarkups } from '@/stores/markups';
 
@@ -85,9 +86,9 @@ const markupsStore = useMarkups();
 
 const getMarkups = ref(markupsStore.showMarkup)
 
-watch(()=> {
-  
-})
+watch(()=> markupsStore.showMarkup,(newVal)=>  {
+  getMarkups.value=newVal
+}, {  immediate: true});
 
 // Computed property to filter markups based on the search query
 const filteredMarkups = computed(() => {
@@ -100,17 +101,6 @@ const filteredMarkups = computed(() => {
 const openModal = () => {
   showModal.value = true
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 

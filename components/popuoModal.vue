@@ -5,7 +5,7 @@
     <div class="rounded-lg shadow-lg w-full max-w-xl bg-white">
       <!-- Modal Header -->
       <div class="flex justify-between items-center mb-4 border-b-2 bg-sec-1 p-6 rounded-t-lg">
-        <h2 class="text-xl text-black mb-2 font-bold">{{ title }}</h2>
+        <h2 class="text-xl text-black mb-2 font-bold">Create Markup Group</h2>
         <button class="text-gray-600 hover:text-gray-900" @click="handleClose">
           <Icon size="25" name="ic:sharp-close" />
         </button>
@@ -65,7 +65,6 @@ const inputMArkup = ref(markupStore.addMarkup);
 // Define the expected props for this component
 interface Props {
   isOpen: boolean;
-  title: string;
 }
 
 const props = defineProps<Props>();
@@ -75,10 +74,11 @@ const emit = defineEmits<{
   (event: 'update:isOpen', value: boolean): void;
 }>();
 
-// Reactive reference to control modal visibility
 const isOpen = ref(props.isOpen);
 
-// Function to close the modal and reset the active step
+
+
+
 const closeModal = () => {
   emit('update:isOpen', false);
 };
@@ -94,9 +94,10 @@ const handleClose = () => {
 watch(() => props.isOpen, (newVal) => {
   isOpen.value = newVal;
   if (!newVal) {
-    isActive.value = 1; // Reset active step when modal is closed
+    isActive.value = 1; 
   }
 });
+
 
 
 
@@ -106,7 +107,6 @@ const submitForm = async () => {
     // Send a POST request with markup and selected corporates
     const response = await axios.post('https://example.com/api/markups', {
       markup: inputMArkup.value,
-      corporates: selectedCorporates.value
     });
     console.log('Response:', response.data);
   } catch (error) {

@@ -102,7 +102,7 @@
   
   // Function to remove an asset
   const removeAsset = (index: number) => {
-    inputMArkup .value.assets.splice(index, 1);
+    inputMArkup.value.assets.splice(index, 1);
   };
   
   // Function to validate numeric input

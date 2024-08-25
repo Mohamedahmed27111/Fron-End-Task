@@ -8,8 +8,8 @@
       </p>
     </div>
     <MultiSelect
-      v-model="selectedCorporates"
-      :options="corporates"
+      v-model="inputMArkup.corporates"
+      :options="getCorporates"
       optionLabel="name"
       placeholder="Select Corporates"
       class="custom-dropdown p-focus w-full"
@@ -17,33 +17,24 @@
   </div>
 </template>
 
+
+
 <script setup lang="ts">
-import { ref, defineProps, defineEmits } from 'vue';
+import { ref} from 'vue';
+import { useMarkups } from '~/stores/markups';
 
-// Define the type for corporates
-interface Corporate {
-  name: string;
-  id: number;
-}
+const markupsStore = useMarkups();
 
-// Define props
-const props = defineProps<{
-  corporates: Corporate[];
-  modelValue: Corporate[];
-}>();
+const inputMArkup = ref(markupsStore.addMarkup)
 
-// Define emits
-const emit = defineEmits<{
-  (event: 'update:modelValue', value: Corporate[]): void;
-}>();
+const getCorporates =ref(markupsStore.CorporateInfo)
 
-// Initialize selectedCorporates with the value from props
-const selectedCorporates = ref<Corporate[]>(props.modelValue);
 
-// Watch for changes in selectedCorporates and emit updates
-watch(selectedCorporates, (newValue) => {
-  emit('update:modelValue', newValue);
-}, { deep: true });
+markupsStore.fetchCorporateInfo()
+
+
+
+
 </script>
 
 <style scoped>

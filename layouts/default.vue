@@ -1,6 +1,6 @@
 <template>
-    <div class="flex flex-col lg:flex-row h-screen">
-      <div class="relative flex">
+    <div class="flex flex-col lg:flex-row h-screen relative">
+      <div class="sticky  top-0 ">
         <SideNavBar />
       </div>
   

@@ -3,33 +3,34 @@
     <!-- Form fields for user input -->
     <div class="flex flex-col">
       <label for="G-name">Group name</label>
-      <InputText v-model="markup.name" id="G-name" class="inputText" />
+      <InputText v-model="inputMArkup.name" id="G-name" class="inputText" />
     </div>
 
     <div class="flex justify-between my-3 gap-3">
       <div class="flex flex-col">
         <label for="M-In-v">Incoming Value</label>
         <InputText
-          v-model="markup.incomingValue"
+          v-model="inputMArkup.incomingValue"
           id="M-In-v"
           class="inputText"
-          :class="{ 'is-invalid': !isNumeric(markup.incomingValue) && markup.incomingValue !== '' }"
+          :class="{ 'is-invalid': !isNumeric(inputMArkup.incomingValue) && inputMArkup.incomingValue !== '' }"
           @input="validateNumeric($event)"
         />
-        <span v-if="!isNumeric(markup.incomingValue) && markup.incomingValue !== ''" class="error">This field is required Number</span>
+        <span v-if="!isNumeric(inputMArkup.incomingValue) && inputMArkup.incomingValue !== ''" class="error">This field is required Number</span>
       </div>
       <div class="flex flex-col">
         <label for="M-Out-v">Outcoming Value</label>
         <InputText
-          v-model="markup.outcomingValue"
+          v-model="inputMArkup.outcomingValue"
           id="M-Out-v"
           class="inputText"
-          :class="{ 'is-invalid': !isNumeric(markup.outcomingValue) && markup.outcomingValue !== '' }"
+          :class="{ 'is-invalid': !isNumeric(inputMArkup.outcomingValue) && inputMArkup.outcomingValue !== '' }"
           @input="validateNumeric($event)"
         />
-        <span v-if="!isNumeric(markup.outcomingValue) && markup.outcomingValue !== ''" class="error">This field is required Number</span>
+        <span v-if="!isNumeric(inputMArkup.outcomingValue) && inputMArkup.outcomingValue !== ''" class="error">This field is required Number</span>
       </div>
     </div>
+    
 
     <div class="my-3">
       <h1 class="font-bold text-black">Custom Markup <span class="text-prim text-sm font-extrabold">(optional)</span></h1>
@@ -37,12 +38,12 @@
     </div>
 
     <!-- Assets -->
-    <div v-if="markup.assets.length > 0" class="overflow-y-auto max-h-48">
-      <div v-for="(asset, index) in markup.assets" :key="index" class="asset-container flex justify-between items-center gap-2 mt-5">
+    <div v-if="inputMArkup.assets.length > 0" class="overflow-y-auto max-h-48">
+      <div v-for="(asset ,index ) in  inputMArkup.assets" :key="index" class="asset-container flex justify-between items-center gap-2 mt-5">
         <div>
           <Dropdown
-            v-model="asset.selectedAsset"
-            :options="assets"
+            v-model="asset.name"
+            :options="getAssets"
             optionLabel="name"
             placeholder="Select an Asset"
             class="custom-dropdown p-focus"
@@ -51,7 +52,6 @@
         <div>
           <InputText
             v-model="asset.incomingValue"
-            :id="'asset-incomingValue-' + index"
             class="inputText"
             placeholder="Incoming Value"
             :class="{ 'is-invalid': !isNumeric(asset.incomingValue) && asset.incomingValue !== '' }"
@@ -62,7 +62,6 @@
         <div>
           <InputText
             v-model="asset.outcomingValue"
-            :id="'asset-outcomingValue-' + index"
             class="inputText"
             placeholder="Outcoming Value"
             :class="{ 'is-invalid': !isNumeric(asset.outcomingValue) && asset.outcomingValue !== '' }"
@@ -82,53 +81,40 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps, defineEmits, watch } from 'vue';
 
 
-interface Asset {
-  selectedAsset: string;
-  incomingValue: string;
-  outcomingValue: string;
-  id: number;
-}
+import { useMarkups } from '~/stores/markups';
 
-interface Markup {
-  name: string;
-  incomingValue: string;
-  outcomingValue: string;
-  assets: Asset[];
-}
+const markupStore = useMarkups()
+const inputMArkup = ref(markupStore.addMarkup)
 
-// Define props
-const props = defineProps<{
-  assets: { name: string; id: number }[];
-  markup: Markup;
-}>();
+markupStore.fetchAssets()
+const getAssets = (markupStore.showAsset)
 
-// Define emits
-const emit = defineEmits<{
-  (event: 'update:modelValue', value: Markup): void;
-}>();
 
-// Initialize the markup object with props
-const markup = ref<Markup>(props.markup);
 
-// Available assets from props
-const availableAssets = ref<{ name: string; id: number }[]>(props.assets);
+
+
+
+
+
+
+
+
+
 
 // Function to add a new asset
 const addAsset = () => {
-  markup.value.assets.push({
-    selectedAsset: '',
+  inputMArkup.value.assets.push({
+    name: '',
     incomingValue: '',
     outcomingValue: '',
-    id: Date.now(), // Unique ID
   });
 };
 
 // Function to remove an asset
 const removeAsset = (index: number) => {
-  markup.value.assets.splice(index, 1);
+  inputMArkup .value.assets.splice(index, 1);
 };
 
 // Function to validate numeric input
@@ -142,10 +128,7 @@ const validateNumeric = (event: Event) => {
   }
 };
 
-// Watch for changes in markup and emit the updated value
-watch(markup, (newValue) => {
-  emit('update:modelValue', newValue);
-}, { deep: true });
+
 
 </script>
 

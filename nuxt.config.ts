@@ -6,7 +6,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   css:['~/assets/styles/main.css'],
 
-  modules: ["@nuxtjs/tailwindcss", "@nuxt/icon" ,  '@primevue/nuxt-module'],
+  modules: ["@nuxtjs/tailwindcss", "@nuxt/icon" ,  '@primevue/nuxt-module' , '@pinia/nuxt'],
   app: {
     head: {
       title: 'Markups',
@@ -19,9 +19,14 @@ export default defineNuxtConfig({
   },
   primevue: {
     options: {
-        theme: {
-            preset: Aura
+      theme: {
+        preset: Aura,
+        options: {
+            prefix: 'p',
+            darkModeSelector: '.my-app-dark',
+            cssLayer: false
         }
     }
+}
 }
 })

@@ -14,21 +14,12 @@
       <form @submit.prevent="submitForm">
         <!-- Markup Section -->
         <div class="mb-6 p-6" v-if="isActive === 1">
-          <Add
-            v-model="markup"
-            :assets="assets"
-            :markup="markup"
-            @add-asset="addAsset"
-            @remove-asset="removeAsset"
-          />
+          <Add/>
         </div>
 
         <!-- Corporates Section -->
         <div class="mb-6" v-if="isActive === 2">
-          <NextAdd
-            v-model="selectedCorporates"
-            :corporates="corporates"
-          />
+          <NextAdd/>
         </div>
 
         <!-- Submit Button -->
@@ -63,6 +54,10 @@
 <script lang="ts" setup>
 import { ref, watch, defineProps, defineEmits, onMounted } from 'vue';
 import axios from 'axios';
+import { useMarkups } from '~/stores/markups';
+
+const markupStore = useMarkups()
+const inputMArkup = ref(markupStore.addMarkup)
 
 const isActive = ref(1);
 
@@ -117,48 +112,18 @@ interface Corporate {
   id: number;
 }
 
-const markup = ref<Markup>({
-  name: '',
-  incomingValue: '',
-  outcomingValue: '',
-  assets: []
-});
 
 const selectedCorporates = ref<Corporate[]>([]);
 const corporates = ref<Corporate[]>([]);
 const assets = ref<{ name: string; id: number }[]>([]);
 
-//  fetch corporates
-const fetchCorporates = async () => {
-  try {
-    const response = await axios.get('https://test.mowafaqa.com.sa/api/corporates');
-    corporates.value = response.data.data;
-  } catch (error) {
-    console.error('Error fetching corporates:', error);
-  }
-};
 
-//  fetch assets
-const fetchAssets = async () => {
-  try {
-    const response = await axios.get<{ data: { name: string; id: number }[] }>('https://test.mowafaqa.com.sa/api/assets');
-    assets.value = response.data.data;
-  } catch (error) {
-    console.error('Error fetching assets:', error);
-  }
-};
-
-// Fetch data
-onMounted(() => {
-  fetchCorporates();
-  fetchAssets();
-});
 
 // Handle form submission
 const submitForm = async () => {
   try {
     const response = await axios.post('https://example.com/api/markups', {
-      markup: markup.value,
+      markup: inputMArkup.value,
       corporates: selectedCorporates.value
     });
     console.log('Response:', response.data);
@@ -176,19 +141,20 @@ const handleBack = () => {
   isActive.value = 1;
 };
 
-const addAsset = () => {
-  markup.value.assets.push({
-    name: '',
-    incomingValue: '',
-    outcomingValue: '',
-    id: Date.now()
-  });
-};
 
-const removeAsset = (index: number) => {
-  markup.value.assets.splice(index, 1);
-};
+
 </script>
+
+
+
+
+
+
+
+
+
+
+
 
 <style scoped>
 </style>

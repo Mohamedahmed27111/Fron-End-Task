@@ -1,6 +1,8 @@
 <template>
   <div>
+
     <div class="bg-white rounded-md p-4">
+      
       <h1 class="text-black text-2xl font-bold">Markups Groups</h1>
       <p class="text-sec-2 text-sm font-semibold mt-1">Manage your markups, add and edit them</p>
 
@@ -61,68 +63,79 @@
   </div>
 </template>
 
-<script setup>
-import { ref, computed } from 'vue'
-import axios from 'axios'
+<script setup >
+import { ref, computed , onMounted } from 'vue'
+
+import { useMarkups } from '@/stores/markups';
 
 const searchQuery = ref('')
-const markups = ref([])
-const showModal = ref(false)
+const showModal = ref(true)
 const activeAction = ref(null)
 
-// Fetching data
-const fetchMarkups = async () => {
-  try {
-    const response = await axios.get('https://test.mowafaqa.com.sa/api/markups')
-    markups.value = response.data.data
-  } catch (error) {
-    console.error('An error occurred while fetching markups:', error)
-  } finally {
-    console.log('Request completed')
-  }
-}
+const markupsStore = useMarkups();
 
-// Fetch markups on component mount
-fetchMarkups()
+
+const getMarkups = ref(markupsStore.showMarkup)
+
+console.log(getMarkups)
+onMounted(() => {
+  markupsStore.fetchMarkUps()
+
+})
 
 // Computed property to filter markups based on the search query
 const filteredMarkups = computed(() => {
-  return markups.value.filter(m =>
+  return getMarkups.value.filter(m => 
     m.name.toLowerCase().includes(searchQuery.value.toLowerCase())
-  )
-})
+  );
+});
 
 // Open modal
 const openModal = () => {
   showModal.value = true
 }
 
-// PUT request to edit a markup
-const editMarkup = async (id) => {
-  try {
-    const response = await axios.put(`https://example.com/api/markups/${id}`, {
-      name: 'Updated Markup Name',
-      incoming_markup: 10,
-      outgoing_markup: 5
-    })
-    console.log('Markup updated successfully:', response.data)
-    // Optionally refresh the markups list after editing
-    fetchMarkups()
-  } catch (error) {
-    console.error('An error occurred while updating the markup:', error)
-  }
-}
 
-// DELETE request to delete a markup
-const deleteMarkup = async (id) => {
-  try {
-    const response = await axios.delete(`https://example.com/api/markups/${id}`)
-    console.log('Markup deleted successfully:', response.data)
-    fetchMarkups()
-  } catch (error) {
-    console.error('An error occurred while deleting the markup:', error)
-  }
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// // PUT request to edit a markup
+// const editMarkup = async (id) => {
+//   try {
+//     const response = await axios.put(`https://example.com/api/markups/${id}`, {
+//       name: 'Updated Markup Name',
+//       incoming_markup: 10,
+//       outgoing_markup: 5
+//     })
+//     console.log('Markup updated successfully:', response.data)
+//     // Optionally refresh the markups list after editing
+//     fetchMarkups()
+//   } catch (error) {
+//     console.error('An error occurred while updating the markup:', error)
+//   }
+// }
+
+// // DELETE request to delete a markup
+// const deleteMarkup = async (id) => {
+//   try {
+//     const response = await axios.delete(`https://example.com/api/markups/${id}`)
+//     console.log('Markup deleted successfully:', response.data)
+//     fetchMarkups()
+//   } catch (error) {
+//     console.error('An error occurred while deleting the markup:', error)
+//   }
+// }
 
 // Toggle actions for each markup
 const toggleActions = (id) => {

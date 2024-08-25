@@ -1,14 +1,13 @@
 <template>
     <div>
-        <BuildingSoon/>
-
+      <BuildingSoon />
     </div>
-</template>
+  </template>
+  
+  <script setup lang="ts">
+  
 
-<script setup>
 
-</script>
-
-<style lang="scss" scoped>
-
-</style>
+  
+  </script>
+  

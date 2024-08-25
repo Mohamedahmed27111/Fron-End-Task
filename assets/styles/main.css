@@ -1,19 +1,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-body{
-    background-color: #f2f5fa;
+
+body {
+  background-color: #f2f5fa;
 }
 
-.p-select:not(.p-disabled).p-focus{
-    border-color:#4824f5 !important ;
-    }
-    .p-select-option.p-select-option-selected {
-      background:#f2f5fa !important ;
-      color: #4824f5 !important;
-    }
+.p-select:not(.p-disabled).p-focus {
+  border-color: #4824f5 !important;
+}
+
+.p-select-option.p-select-option-selected {
+  background: #f2f5fa !important;
+  color: #4824f5 !important;
+}
 
 
-    .p-checkbox-checked .p-checkbox-box {        border-color:#4824f5 !important;
-        background:#4824f5 !important;
-      }
+.p-checkbox-checked .p-checkbox-box {
+  border-color: #4824f5 !important;
+  background: #4824f5 !important;
+}

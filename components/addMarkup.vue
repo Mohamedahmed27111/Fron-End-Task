@@ -42,9 +42,10 @@
         <div v-for="(asset ,index ) in  inputMArkup.assets" :key="index" class="asset-container flex justify-between items-center gap-2 mt-5">
           <div>
             <Dropdown
-              v-model="asset.name"
+              v-model="asset.id"
               :options="getAssets"
               optionLabel="name"
+              optionValue="id"  
               placeholder="Select an Asset"
               class="custom-dropdown p-focus"
             />
@@ -86,15 +87,15 @@
   
   const markupStore = useMarkups()
   const inputMArkup = ref(markupStore.addMarkup)
-  const getAssets = (markupStore.showAsset)
-  
+  const getAssets = computed(() => markupStore.showAsset);
+
 
 
 
   // Function to add a new asset
   const addAsset = () => {
     inputMArkup.value.assets.push({
-      name: '',
+      id: 0,
       incomingValue: '',
       outcomingValue: '',
     });
@@ -130,29 +131,5 @@
 
 
   
-  <style scoped>
  
-  
-  .custom-dropdown .p-dropdown .p-inputtext:focus {
-    border-color: #4824f5 !important;
-  }
-  
-  .p-select-option.p-select-option-selected.p-focus {
-    color: #4824f5 !important;
-  }
-  
-  label {
-    @apply text-sm font-bold text-sec-2;
-  }
-  
-  .error {
-    color: red;
-    font-size: 0.9em;
-  }
-  
-  .is-invalid {
-    border-color: red;
-    outline-color: red;
-  }
-  </style>
   

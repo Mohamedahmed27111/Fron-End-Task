@@ -11,6 +11,7 @@
       v-model="inputMArkup.corporates"
       :options="getCorporates"
       optionLabel="name"
+      optionValue="id"  
       placeholder="Select Corporates"
       class="custom-dropdown p-focus w-full"
 
@@ -28,18 +29,10 @@ const markupsStore = useMarkups();
 
 const inputMArkup = ref(markupsStore.addMarkup)
 
-const getCorporates =ref(markupsStore.CorporateInfo)
+const getCorporates =ref(markupsStore.showCorporate)
 
 
 
 
 </script>
 
-<style scoped>
-.p-multiselect:not(.p-disabled).p-focus{
-  border-color:#4824f5 !important ;
-}
-
-
-
-</style>

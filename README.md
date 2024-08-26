@@ -5,14 +5,14 @@ This is an app that simulates a CRUD system using HTML, CSS, TypeScript, Tailwin
 
 ## How to Use
 I have placed the table in the index file. You can navigate using the sidebar, but only the index page is functional at the moment. To create a markup, click the "Create Markup" button.
-## important Note
-if 'npm i'  didn't work try 'npm i --legacy-peer-deps'
-## update Notes
 
-- there isn't an Assigned corporates data in api
-- the theme of form i forget to disable dark mode from primeVue
-- i handel data with state managment pinia js in folder stores/markup.ts.
+## Important Note
+If `npm i` doesn't work, try `npm install --legacy-peer-deps`.
 
+## Update Notes
+- There isn't any assigned corporate data in the API.
+- I forgot to disable dark mode in PrimeVue for the form theme.
+- I handle data with state management using Pinia in the `stores/markup.ts` file.
 
 
 

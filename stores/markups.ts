@@ -1,9 +1,8 @@
-// imports
-import { defineStore } from "pinia";
-import axios from "axios";
+import { defineStore } from 'pinia';
+import axios from 'axios';
 
 // URL
-const API_URL = "https://test.mowafaqa.com.sa/api";
+const API_URL = 'https://test.mowafaqa.com.sa/api';
 
 // Interface definitions
 interface AssetsInfo {
@@ -33,30 +32,30 @@ interface Markups {
 }
 
 // Define the Pinia store
-export const useMarkups = defineStore("markup", {
+export const useMarkups = defineStore('markup', {
   state: (): Markups => ({
     showMarkup: [],
     showAsset: [],
     userMarkup: [],
     showCorporate: [],
     addMarkup: {
-      name: "",
-      incomingValue: "",
-      outcomingValue: "",
+      name: '',
+      incomingValue: '',
+      outcomingValue: '',
       corporates: [],
       assets: [],
     },
   }),
 
   // Actions
-  
   actions: {
+  
     // Clear data
     clearvalues() {
       this.addMarkup = {
-        name: "",
-        incomingValue: "",
-        outcomingValue: "",
+        name: '',
+        incomingValue: '',
+        outcomingValue: '',
         corporates: [],
         assets: [],
       };
@@ -70,7 +69,7 @@ export const useMarkups = defineStore("markup", {
           this.showMarkup = response.data.data;
         })
         .catch((error) => {
-          console.error("Error fetching Markups:", error);
+          console.error('Error fetching Markups:', error);
         });
     },
 
@@ -82,7 +81,7 @@ export const useMarkups = defineStore("markup", {
           this.showAsset = response.data.data;
         })
         .catch((error) => {
-          console.error("Error fetching assets:", error);
+          console.error('Error fetching assets:', error);
         });
     },
 
@@ -94,7 +93,7 @@ export const useMarkups = defineStore("markup", {
           this.showCorporate = response.data.data;
         })
         .catch((error) => {
-          console.error("Error fetching corporate info:", error);
+          console.error('Error fetching corporate info:', error);
         });
     },
   },

@@ -119,4 +119,6 @@ const handleNext = () => {
 const handleBack = () => {
   isActive.value = 1; 
 };
+
+
 </script>

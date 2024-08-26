@@ -21,8 +21,15 @@
 import { ref, onMounted } from 'vue'
 
 const isLoading = ref(true)
+const router = useRouter();
 
 onMounted(() => {
   isLoading.value = false
 })
+import { useRouter } from 'vue-router';
+
+
+onMounted(() => {
+  router.replace('/Markup'); 
+});
 </script>

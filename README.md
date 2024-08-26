@@ -6,12 +6,12 @@ This is an app that simulates a CRUD system using HTML, CSS, TypeScript, Tailwin
 ## How to Use
 I have placed the table in the index file. You can navigate using the sidebar, but only the index page is functional at the moment. To create a markup, click the "Create Markup" button.
 
-## Notes
+## update Notes
 
-- The form is created with PrimeVue.
-- The app is 90% responsive; however, the navbar is not yet functional.
-- I attempted to handle data management with state management libraries like Pinia and Vuex but encountered issues during installation. I tried solutions from the official websites and Nuxt module but faced errors. Consequently, I used props, although this was not the ideal solution.
-- I hope that I have structured the app in the right way.
+- there isn't an Assigned corporates data in api
+- the theme of form i forget to disable dark mode from primeVue
+- i handel data with state managment pinia js in folder stores/markup.ts.
+
 
 
 

@@ -9,27 +9,27 @@
         <Icon size="25" name="ic:sharp-close" color="black" class="lg:hidden" @click="toggle" />
       </div>
       <ul>
-        <NuxtLink to="/Dashboard">
+        <NuxtLink to="/Dashboard" @click="TToDashboard"> 
           <li>
             <Icon size="25" name="material-symbols:dashboard" /> Dashboard
           </li>
         </NuxtLink>
-        <NuxtLink to="/Corporates">
+        <NuxtLink to="/Corporates" @click="TToCoporates">
           <li>
             <Icon size="25" name="ph:buildings-fill" /> Corporates
           </li>
         </NuxtLink>
-        <NuxtLink to="/Network">
+        <NuxtLink to="/Network" @click="TToNetwork">
           <li>
             <Icon size="25" name="entypo:network" /> Networks
           </li>
         </NuxtLink>
-        <NuxtLink to="/Assets">
+        <NuxtLink to="/Assets" @click="TToAsset">
           <li>
             <Icon size="25" name="fa-brands:gg-circle" /> Assets
           </li>
         </NuxtLink>
-        <NuxtLink to="/">
+        <NuxtLink to="/Markup" @click="TToMarkup">
           <li>
             <Icon size="25" name="f7:divide-square-fill" /> Markups
           </li>
@@ -41,9 +41,10 @@
 
 <script setup>
 import { ref } from "vue";
+import { useMarkups } from '~/stores/markups'; 
+
 
 const isSidebarOpen = ref(false);
-
 const toggle = () => {
   isSidebarOpen.value = !isSidebarOpen.value;
 };

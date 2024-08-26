@@ -82,7 +82,6 @@
   </template>
   
   <script setup lang="ts">
-  
   import { useMarkups } from '~/stores/markups';
   
   const markupStore = useMarkups()

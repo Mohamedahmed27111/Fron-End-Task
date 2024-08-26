@@ -51,7 +51,7 @@
               </button>
             </div>
           </div>
-          <button type="submit" class="mt-4 px-4 py-2 bg-prim text-white rounded">Save Changes</button>
+          <button type="submit" class="mt-4 px-4 py-2 bg-prim text-white rounded" >Save Changes</button>
         </form>
       </div>
     </div>
@@ -83,10 +83,15 @@ const closeModal = () => emit('close');
 
 const updateMarkup = async () => {
   try {
-    const response = await axios.post(`https://{example.com/api/markups/${returnedMarkeUp.value.id}, returnedMarkeUp.value`);
-    
-      await markupsStore.updateMarkup(response.data);
-      closeModal();
+    const response = await axios.post(`https://example.com/api/markups/${returnedMarkeUp.value.id}`, returnedMarkeUp.value);
+    if(state)
+  {
+    await markupsStore.updateMarkup(response.data);
+    closeModal()
+  }
+
+  
+  
  
   } catch (error) {
     console.error('Error updating markup:', error.response ? error.response.data : error.message);

@@ -46,15 +46,15 @@
               <td>{{ m.assigned_corporates }}</td>
               <td>
                 <div class="relative">
-                  <button @click="toggleActions(m.id)" class="py-2 px-4 bg-sec-1 text-sec-3 font-semibold rounded flex items-center">
+                  <button @click="toggleActions(m.id)" class="py-2 px-4  bg-sec-1 text-sec-3 font-semibold rounded flex items-center">
                     Action
                     <Icon size="18" name="ri:arrow-down-s-line" color="black" />
                   </button>
-                  <div v-if="activeAction === m.id" class="actions absolute z-10 bg-sec-1 border-2 p-3 rounded-lg right-0 mt-2">
-                    <button @click="editMarkup(m)" class="py-2 px-4 w-full bg-prim my-2 text-white font-semibold rounded flex items-center justify-center">
+                  <div v-if="activeAction === m.id" class="actions absolute top-7 z-10 bg-sec-1 border-2 p-3 rounded-lg w-24 mt-2 flex flex-col gap-1">
+                    <button @click="editMarkup(m)" class="bg-prim actionBTN">
                       Edit
                     </button>
-                    <button @click="deleteMarkup(m.id)" class="py-2 px-4 bg-red-600 text-white font-semibold rounded flex items-center justify-center">
+                    <button @click="deleteMarkup(m.id)" class="bg-red-600 actionBTN">
                       Delete
                     </button>
                   </div>
@@ -72,23 +72,27 @@
 
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue'; 
 import { useMarkups } from '@/stores/markups';
 
-const searchQuery = ref('');
+// State variables
+const searchQuery = ref(''); 
 const isAddModalVisible = ref(false); 
-const isUpdateModalVisible = ref(false);
-const activeAction = ref(null);
+const isUpdateModalVisible = ref(false); 
+const activeAction = ref(null); 
+const selectedMarkup = ref(null); 
 
-
+// Access the markups store
 const markupsStore = useMarkups();
 
+// Fetch initial data when component is mounted
 onMounted(() => {
-  markupsStore.fetchMarkUps();
-  markupsStore.fetchAssets();
-  markupsStore.fetchCorporateInfo();
+  markupsStore.fetchMarkUps(); 
+  markupsStore.fetchAssets(); 
+  markupsStore.fetchCorporateInfo(); 
 });
 
+// Methods for handling modal visibility
 const showAddModal = () => {
   isAddModalVisible.value = true; 
 };
@@ -97,49 +101,39 @@ const hideAddModal = () => {
   isAddModalVisible.value = false; 
 };
 
+const showUpdateModal = () => {
+  isUpdateModalVisible.value = true; 
+};
 
+const hideUpdateModal = () => {
+  isUpdateModalVisible.value = false; 
+};
 
-const getMarkups = computed(() => markupsStore.showMarkup);
+// Computed properties
+const getMarkups = computed(() => markupsStore.showMarkup); 
+  
 
+// Filter markups based on the search query
 const filteredMarkups = computed(() => {
   return getMarkups.value.filter(m =>
     m.name.toLowerCase().includes(searchQuery.value.toLowerCase())
   );
 });
 
-
 const toggleActions = (id) => {
   activeAction.value = activeAction.value === id ? null : id;
 };
 
-
-const selectedMarkup = ref(null)
-
-
+// Set the selected markup for editing and show the Update Markup modal
 const editMarkup = (markup) => {
-  selectedMarkup.value = { ...markup }; // Set the selected markup to be edited
-  showUpdateModal(); // Show the update modal
+  selectedMarkup.value = { ...markup }; 
+  showUpdateModal(); 
 };
 
-// Function to handle saving the updated markup
-const updateMarkup = () => {
-  markupsStore.updateMarkup(selectedMarkup.value); // Update the markup in store
-  hideUpdateModal(); // Close the update modal
-};
-
-
-const showUpdateModal = () => {
-  isUpdateModalVisible.value = true;
-};
-
-const hideUpdateModal = () => {
-  isUpdateModalVisible.value = false;
-};
-
-// Function to delete a markup by ID
 const deleteMarkup = (id) => {
-  // Add appropriate deletion logic here
+  // Implement delete functionality here
 };
+
 </script>
 
 
@@ -182,5 +176,9 @@ input {
 
 input:focus {
   @apply border-2 border-sec-2;
+}
+
+.actionBTN{
+  @apply py-2 px-4  text-white font-semibold rounded flex items-center justify-center w-full ;
 }
 </style>

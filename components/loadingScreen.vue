@@ -5,10 +5,6 @@
     </div>
 </template>
 
-<script setup>
-
-</script>
-
 <style  scoped>
 /* HTML: <div class="loader"></div> */
 .loader {

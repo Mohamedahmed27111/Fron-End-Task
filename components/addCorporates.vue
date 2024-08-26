@@ -14,7 +14,6 @@
       optionValue="id"  
       placeholder="Select Corporates"
       class="custom-dropdown p-focus w-full"
-
     />
   </div>
 </template>

@@ -27,21 +27,24 @@
           </div>
           <!-- Asset List -->
           <div v-if="returnedMarkeUp.assets.length > 0" class="overflow-y-auto max-h-48">
-            <div v-for="(asset, index) in returnedMarkeUp.assets" :key="index" class="flex justify-between items-center gap-3 mt-3">
+            <h1 class="text-black font-bold text-xl">Assets</h1>
+
+            <div v-for="(asset, index) in returnedMarkeUp.assets" :key="index"
+              class="flex justify-between items-center gap-3 mt-3">
               <div class="flex flex-col w-1/3">
                 <label :for="'asset-name-' + index">Asset</label>
-                <Dropdown :id="'asset-name-' + index" v-model="asset.name" :options="getAssets" optionLabel="name"
-                          placeholder="Select an Asset" class="custom-dropdown p-focus" />
+                <Dropdown :id="'asset-name-' + index" v-model="asset.asset_id" :options="getAssets" optionLabel="name"
+                  optionValue="id" :placeholder="asset.asset_id? null : 'Select an Asset'" class="custom-dropdown p-focus" />
               </div>
               <div class="flex flex-col w-1/3">
                 <label :for="'asset-incoming-' + index">Incoming Value</label>
-                <InputText :id="'asset-incoming-' + index" v-model="asset.incomingValue" class="inputText"
-                           :class="{ 'is-invalid': !isNumeric(asset.incomingValue) && asset.incomingValue !== '' }" />
+                <InputText :id="'asset-incoming-' + index" v-model="asset.incoming_markup" class="inputText"
+                  :class="{ 'is-invalid': !isNumeric(asset.incoming_markup) && asset.incoming_markup !== '' }" />
               </div>
               <div class="flex flex-col w-1/3">
                 <label :for="'asset-outcoming-' + index">Outcoming Value</label>
-                <InputText :id="'asset-outcoming-' + index" v-model="asset.outcomingValue" class="inputText"
-                           :class="{ 'is-invalid': !isNumeric(asset.outcomingValue) && asset.outcomingValue !== '' }" />
+                <InputText :id="'asset-outcoming-' + index" v-model="asset.outgoing_markup" class="inputText"
+                  :class="{ 'is-invalid': !isNumeric(asset.outgoing_markup) && asset.outgoing_markup !== '' }" />
               </div>
               <button type="button" @click="removeAsset(index)" class="text-sec-2 hover:text-sec-3">
                 <Icon size="25" name="ic:baseline-delete" />
@@ -58,16 +61,13 @@
 <script setup>
 import { ref, computed, watch } from 'vue';
 import { useMarkups } from '@/stores/markups';
+import axios from 'axios';
+
+const getAssets = computed(() => markupsStore.showAsset);
 
 const props = defineProps({
-  UpdateVisible: {
-    type: Boolean,
-    required: true,
-  },
-  markup: {
-    type: Object,
-    required: true,
-  },
+  UpdateVisible: Boolean,
+  markup: Object,
 });
 
 const emit = defineEmits(['close', 'save']);
@@ -76,42 +76,27 @@ const markupsStore = useMarkups();
 const returnedMarkeUp = ref({ ...props.markup });
 
 watch(() => props.markup, (newMarkup) => {
-  returnedMarkeUp.value = { ...newMarkup }; // Update local state when prop changes
+  returnedMarkeUp.value = { ...newMarkup };
 });
+const closeModal = () => emit('close');
 
-const closeModal = () => {
-  emit('close');
-};
 
 const updateMarkup = async () => {
   try {
-    await markupsStore.updateMarkup(returnedMarkeUp.value); // Update with local state
-    emit('save'); // Notify parent component to update the list
-    closeModal(); // Close the modal after updating
+    const response = await axios.post(`https://{example.com/api/markups/${returnedMarkeUp.value.id}, returnedMarkeUp.value`);
+    
+      await markupsStore.updateMarkup(response.data);
+      closeModal();
+ 
   } catch (error) {
-    console.error('An error occurred while updating the markup:', error);
+    console.error('Error updating markup:', error.response ? error.response.data : error.message);
   }
 };
 
-// Utility functions
 const isNumeric = (value) => !isNaN(value) && isFinite(value);
-const removeAsset = (index) => {
-  returnedMarkeUp.value.assets.splice(index, 1);
-};
-const getAssets = computed(() => markupsStore.showAsset); // Assuming this is the list of assets
+const removeAsset = (index) => returnedMarkeUp.value.assets.splice(index, 1);
 </script>
 
-<style scoped>
-/* Scoped styles for the modal component */
-.inputText {
-  @apply p-2 border rounded-lg w-full;
-}
 
-.custom-dropdown {
-  @apply border rounded-lg w-full;
-}
 
-.is-invalid {
-  @apply border-red-500;
-}
-</style>
+<style scoped></style>

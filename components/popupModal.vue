@@ -54,13 +54,15 @@
 
 
 <script setup>
-import { ref, watch, defineProps, defineEmits } from 'vue';
-import { useMarkups } from '~/stores/markups';
-import axios from 'axios';
+import { ref, watch, defineProps, defineEmits } from 'vue'; 
+import { useMarkups } from '~/stores/markups'; 
+import axios from 'axios'; 
 
-// Initialize markups store
+
+// Initialize markups store and bind input markup to store's addMarkup
 const markupStore = useMarkups();
 const inputMarkup = ref(markupStore.addMarkup);
+
 
 // Define props and emits
 const props = defineProps({
@@ -72,50 +74,49 @@ const props = defineProps({
 
 const emit = defineEmits(['close', 'submitted']);
 
-// Watch prop changes and reset modal state accordingly
+// Watch for changes to the `AddVisible` prop and reset form state when the modal is closed
 watch(() => props.AddVisible, (newVal) => {
   if (!newVal) {
-    resetForm();
+    resetForm(); 
   }
 });
 
-// Function to close the modal
+// Function to close the modal and reset form state
 const closeModal = () => {
-  emit('close');
-  resetForm();
+  emit('close'); 
+  resetForm(); 
 };
 
-// Reset the form state
+// Function to reset the form to its initial state
 const resetForm = () => {
-  isActive.value = 1; // Reset active step
-  markupStore.clearvalues(); // Clear store values
+  isActive.value = 1; 
+  markupStore.clearvalues(); 
 };
 
-// Form submission logic
+// Function to handle form submission
 const submitForm = async () => {
   try {
-    // Submit the form via API call
     const response = await axios.post('https://example.com/api/markups', {
       markup: inputMarkup.value,
     });
-    console.log('Response:', response.data);
-    emit('submitted'); // Emit submission success event
-    closeModal(); // Close modal after submission
+    console.log('Response:', response.data); 
+    emit('submitted'); 
+    closeModal(); 
   } catch (error) {
-    console.error('Error submitting form:', error);
-    // Handle error (e.g., show user feedback)
+    console.error('Error submitting form:', error); 
   }
 };
 
-// Track the active tab or step
+// Track the active tab or step in the form
 const isActive = ref(1);
 
-// Handle navigation between steps
+// Function to move to the next step
 const handleNext = () => {
-  isActive.value = 2;
+  isActive.value = 2; 
 };
 
+// Function to move back to the previous step
 const handleBack = () => {
-  isActive.value = 1;
+  isActive.value = 1; 
 };
 </script>

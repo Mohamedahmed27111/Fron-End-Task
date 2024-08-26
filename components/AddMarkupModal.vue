@@ -24,13 +24,22 @@
 
         <!-- Submit Button -->
         <div class="flex justify-end p-6">
+          <!-- Specify type="button" to prevent form submission -->
+           <div class="flex flex-col">
           <button
-            @click="handleNext"
+            type="button"
+            @click="handelValidat"
             v-if="isActive === 1"
             class="bg-prim text-white px-4 py-2 rounded hover:bg-blue-900"
+            
           >
             Next
           </button>
+          <div v-if="showValid" class="text-right p-3">
+          <span class="text-xs text-red-500 font-bold ">Valid Input</span>
+        </div>
+          </div>
+          
           <button
             @click="handleBack"
             v-if="isActive === 2"
@@ -46,10 +55,13 @@
             Submit
           </button>
         </div>
+        
+
       </form>
     </div>
   </div>
 </template>
+
 
 
 
@@ -62,6 +74,8 @@ import axios from 'axios';
 // Initialize markups store and bind input markup to store's addMarkup
 const markupStore = useMarkups();
 const inputMarkup = ref(markupStore.addMarkup);
+const validateInput = ref(false)
+const showValid=ref(false)
 
 
 // Define props and emits
@@ -81,6 +95,13 @@ watch(() => props.AddVisible, (newVal) => {
   }
 });
 
+watch(
+  () => markupStore.testValidation,
+  (newVal) => {
+    validateInput.value = newVal;
+  },
+  { deep: true } 
+);
 // Function to close the modal and reset form state
 const closeModal = () => {
   emit('close'); 
@@ -119,6 +140,18 @@ const handleNext = () => {
 const handleBack = () => {
   isActive.value = 1; 
 };
+
+ const handelValidat = ()=>{
+  if(validateInput.value===true){
+    handleNext()
+    showValid.value=false
+
+  }
+  else{
+    handleBack()
+    showValid.value=true
+  }
+ }
 
 
 </script>

@@ -112,7 +112,12 @@
   const validateNumeric = (event: Event) => {
     const input = event.target as HTMLInputElement;
     if (!isNumeric(input.value)) {
-      input.value = input.value.slice(0, -1);
+      markupStore.testValidation=false
+
+    }
+    else{
+      markupStore.testValidation=true
+
     }
   };
   

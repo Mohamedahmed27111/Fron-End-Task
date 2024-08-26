@@ -29,6 +29,7 @@ interface Markups {
   userMarkup: MarkupsInfo[];
   showCorporate: string[];
   addMarkup: MarkupsInfo;
+  testValidation:boolean;
 }
 
 // Define the Pinia store
@@ -45,6 +46,7 @@ export const useMarkups = defineStore('markup', {
       corporates: [],
       assets: [],
     },
+    testValidation:false
   }),
 
   // Actions

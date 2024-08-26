@@ -5,7 +5,8 @@ This is an app that simulates a CRUD system using HTML, CSS, TypeScript, Tailwin
 
 ## How to Use
 I have placed the table in the index file. You can navigate using the sidebar, but only the index page is functional at the moment. To create a markup, click the "Create Markup" button.
-
+## important Note
+if 'npm i'  didn't work try 'npm i --legacy-peer-deps'
 ## update Notes
 
 - there isn't an Assigned corporates data in api
